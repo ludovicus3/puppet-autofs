@@ -5,7 +5,7 @@
 # @example
 #   include autofs
 class autofs (
-    Varian[Array, String] $package_name,
+    Variant[Array, String] $package_name,
     String $package_ensure,
     Optional[String] $package_source,
 
