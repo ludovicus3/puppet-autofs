@@ -47,3 +47,12 @@ branches:
     - /^v\d/
 notifications:
   email: false
+deploy:
+  provider: puppetforge
+  user: ludovicus
+  password:
+    secure: "AfaSiaCNFAsBHvKayu7gYmKPkjRsWrvy2ypFtN6j39vTp6ulGaZMDNjQugRupib4iSEl/o/UoJ5jraHRch4acHBaHnOld8YeNOuyPoP6gjRJnC27SknnNW87kNXsDFM8vs+NVMZqTgaK5usYI2ih7SoaJKLHWJcpBsiGsUcXGeJ6jGY8GR7cEs2l4vC/94x83ZN3z16aJtb8ZLLkZclPWOTHklQGVFivq+GGf4f8yDTEpZVfdeEge8lZS6s0aCpuGCJkitg2Xxc2uH4Q6hvo0fEQj8ezmNWXG8YhB+glVsim98tCzy8fyfj1Q7xA/vfYNGvt2EdJabhFEvoq+lYUmtBizJFN8IpEeBue6MwMfrJeqh/0fvRipfNFoDJ1I+6u8N+riHEvJ2ZgLAIK5fDURKYEY5buWVMrE1SBslr6lLscLhGZ3cbPWyK9r82B7R38cxciYUwRCsmAyMJ2gNK8RgFcbu6UkCv/mj7sItlHLbSDukKHzNqEwpbodOkFJd/AwxJ5Yzmy8/KYHcxPShJQdVn9UtJijZbkRkioSxOOfNLwwei5Yx0gVKeQPcml27bwxff8dRQdmaqScocixbnVO89cqICGtHnVe4zKuAuq5LWxEU28nIxuuY/d1VzsR7uosNkfdm6/44y9dvPAMd+o1tzHHzlhrUx8TRRKtd8dUvQ="
+  on:
+    tags: true
+    # all_branches is required to use tags
+    all_branches: true
