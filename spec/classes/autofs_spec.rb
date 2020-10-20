@@ -7,7 +7,18 @@ describe 'autofs' do
     context "on #{os}" do
       let(:facts) { os_facts }
 
-      it { is_expected.to compile }
+      it do
+        is_expected.to compile
+
+        is_expected.to contain_package('autofs').with({
+          ensure: 'installed',
+        })
+
+        is_expected.to contain_service('autofs').with({
+          ensure: 'running',
+          enable: true,
+        })
+      end
     end
   end
 end
