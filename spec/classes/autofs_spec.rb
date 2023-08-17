@@ -11,13 +11,13 @@ describe 'autofs' do
         is_expected.to compile
 
         is_expected.to contain_package('autofs').with({
-          ensure: 'installed',
-        })
+                                                        ensure: 'installed',
+                                                      })
 
         is_expected.to contain_service('autofs').with({
-          ensure: 'running',
+                                                        ensure: 'running',
           enable: true,
-        })
+                                                      })
       end
     end
   end
