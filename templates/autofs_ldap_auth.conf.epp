@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<%
+$formats = {
+  Boolean => '%y'
+}
+-%>
+<!--
+This file is managed by Puppet. Edits may be overwritten.
+-->
+<autofs_ldap_sasl_conf
+<% $autofs::ldap_settings.each |$key, $value| { %>
+  <%= $key %>="<%= String.new($value, $formats) %>"
+<% } -%>
+/>
+
