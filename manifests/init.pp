@@ -2,24 +2,72 @@
 #
 # A description of what this class does
 #
-# @example
-#   include autofs
+# @param [Boolean] manage_package
+#   Should puppet manage packages for autofs
+#
+# @param [String] package_name
+#   Name of the packages to install
+#
+# @param [String] package_ensure
+#   State of the package to ensure
+#
+# @param [String] package_source
+#   Source of the package
+#
+# @param [Boolean] manage_config
+#   Allow puppet to manage the configuration files
+#
+# @param [Stdlib::Absolutepath] config_file
+#   Path to the configuration file
+#
+# @param [Hash] autofs_settings
+#
+# @param [Hash] amd_settings
+#
+# @param [Stdlib::Absolutepath] ldap_config_file
+#
+# @param [Hash] ldap_settings
+#
+# @param [Boolean] manage_service
+#   Allow puppet to manage the service for autofs
+#
+# @param [String] service_name
+#   Name of the autofs service
+#
+# @param [Boolean] service_enable
+#   Enable the start of the service on boot
+#
+# @param [Stdlib::Service::Ensure] service_ensure
+#   State of the service to enforce
+#
 class autofs (
-    Variant[Array, String] $package_name = $autofs::params::package_name,
-    String $package_ensure = $autofs::params::package_ensure,
-    Optional[String] $package_source = undef,
+  # Package management
+  Boolean $manage_package = true,
+  Variant[Array[String[1]], String[1]] $package_name = 'autofs',
+  String $package_ensure = 'installed',
+  Optional[String] $package_source = undef,
 
-    Stdlib::Absolutepath $config_file = $autofs::params::config_file,
-    Hash[String, Scalar] $settings = $autofs::params::settings,
-    Hash $parser_settings = $autofs::params::parser_settings,
+  # Configuration management
+  Boolean $manage_config = true,
+  Stdlib::Absolutepath $config_file = '/etc/autofs.conf',
+  Hash $autofs_settings = {},
+  Hash $amd_settings = {},
+  Stdlib::Absolutepath $ldap_config_file = '/etc/autofs_ldap_auth.conf',
+  Hash[String, Scalar] $ldap_settings = {
+    'usetls' => false,
+    'tlsrequired' => false,
+    'authrequired' => false,
+  },
 
-    Variant[Array, String] $service_name = $autofs::params::service_name,
-    Stdlib::Ensure::Service $service_ensure = $autofs::params::service_ensure,
-    Boolean $service_enable = $autofs::params::service_enable,
-) inherits autofs::params {
-    contain 'autofs::install'
-    unless $package_ensure == 'absent' {
-        contain 'autofs::config'
-        contain 'autofs::service'
-    }
+  # Service management
+  Boolean $manage_service = true,
+  String $service_name = 'autofs',
+  Stdlib::Ensure::Service $service_ensure = running,
+  Boolean $service_enable = true,
+) {
+  contain 'autofs::install'
+  contain 'autofs::config'
+  contain 'autofs::service'
+
+  Class['autofs::install'] -> Class['autofs::config'] -> Class['autofs::service']
 }

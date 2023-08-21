@@ -1,28 +1,51 @@
 # @api private
 class autofs::config {
-    assert_private()
+  assert_private()
 
-    if $autofs::config_file {
-        $autofs::settings.each |$key, $value| {
-            ini_setting { "${autofs::config_file}::autofs::${key}":
-                ensure  => present,
-                path    => $autofs::config_file,
-                section => 'autofs',
-                setting => $key,
-                value   => $value,
-            }
-        }
-
-        $autofs::parser_settings.each |$parser, $settings| {
-            $settings.each |$key, $value| {
-                ini_setting { "${autofs::config_file}::${parser}::${key}":
-                    ensure  => present,
-                    path    => $autofs::config_file,
-                    section => $parser,
-                    setting => $key,
-                    value   => $value,
-                }
-            }
-        }
+  if $autofs::manage_config {
+    if $autofs::manage_package {
+      $requirements = Package[$autofs::package_name]
+    } else {
+      $requirements
     }
+
+    if $autofs::manage_service {
+      $subscribers = Service[$autofs::service_name]
+    } else {
+      $subscribers
+    }
+
+    $autofs::autofs_settings.each |$key, $value| {
+      if $value {
+        ini_setting { "autofs::${key}":
+          ensure  => present,
+          path    => $autofs::config_file,
+          section => 'autofs',
+          setting => $key,
+          value   => $value,
+          require => $requirements,
+          notify  => $subscribers,
+        }
+      } else {
+        ini_setting { "autofs::${key}":
+          ensure  => absent,
+          path    => $autofs::config_file,
+          section => 'autofs',
+          setting => $key,
+          require => $requirements,
+          notify  => $subscribers,
+        }
+      }
+
+      file { $autofs::ldap_config_file:
+        ensure  => file,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0640',
+        content => epp('autofs/autofs_ldap_auth.conf.epp'),
+        require => $requirements,
+        notify  => $subscribers,
+      }
+    }
+  }
 }

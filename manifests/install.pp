@@ -1,14 +1,11 @@
-# @summary A short summary of the purpose of this class
-#
-# A description of what this class does
-#
-# @example
-#   include autofs::install
+# @api private
 class autofs::install {
-    assert_private()
+  assert_private()
 
-    package { $autofs::package_name:
+  if $autofs::manage_package {
+    stdlib::ensure_packages($autofs::package_name, {
         ensure => $autofs::package_ensure,
         source => $autofs::package_source,
-    }
+    })
+  }
 }

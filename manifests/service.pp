@@ -1,13 +1,11 @@
 # @api private
 class autofs::service {
-    assert_private()
+  assert_private()
 
+  if $autofs::manage_service {
     service { $autofs::service_name:
-        ensure     => $autofs::service_ensure,
-        enable     => $autofs::service_enable,
-        hasstatus  => true,
-        hasrestart => true,
-        require    => Class['autofs::install'],
-        subscribe  => Class['autofs::config'],
+      ensure => $autofs::service_ensure,
+      enable => $autofs::service_enable,
     }
+  }
 }
