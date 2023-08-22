@@ -86,23 +86,25 @@ define autofs::master (
     }
   }
 
-  $_master = pick($master, $autofs::master_map)
+  if $map != $autofs::master_map {
+    $_master = pick($master, $autofs::master_map)
 
-  if defined(Concat[$_master]) {
-    $_options = Array($options, true).join(',')
+    if defined(Concat[$_master]) {
+      $_options = Array($options, true).join(',')
 
-    $_content = $type ? {
-      undef => "+${map} ${_options}",
-      default => $format ? {
-        undef => "+${type}:${map} ${_options}",
-        default => "+${type},${format}:${map} ${_options}",
+      $_content = $type ? {
+        undef => "+${map} ${_options}",
+        default => $format ? {
+          undef => "+${type}:${map} ${_options}",
+          default => "+${type},${format}:${map} ${_options}",
+        }
       }
-    }
 
-    concat::fragment { "${_master}::${map}":
-      target  => $_master,
-      content => $_content.rstrip(),
-      order   => $order,
+      concat::fragment { "${_master}::${map}":
+        target  => $_master,
+        content => $_content.rstrip(),
+        order   => $order,
+      }
     }
   }
 }

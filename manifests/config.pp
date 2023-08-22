@@ -48,4 +48,32 @@ class autofs::config {
       }
     }
   }
+
+  if $autofs::manage_master {
+    if $autofs::master_content or $autofs::master_source {
+      file { $autofs::master_map:
+        ensure  => file,
+        owner   => $autofs::master_owner,
+        group   => $autofs::master_group,
+        mode    => $autofs::master_mode,
+        content => $autofs::master_content,
+        source  => $autofs::master_source,
+        notify  => $subscribers,
+        require => $requirements,
+      }
+    } else {
+      concat { $autofs::master_map:
+        ensure         => present,
+        owner          => $autofs::master_owner,
+        group          => $autofs::master_group,
+        mode           => $autofs::master_mode,
+        ensure_newline => true,
+        notify         => $subscribers,
+        require        => $requirements,
+      }
+    }
+
+    create_resources('autofs::master', $autofs::masters)
+    create_resources('autofs::map', $autofs::maps)
+  }
 }

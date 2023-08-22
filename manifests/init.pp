@@ -27,6 +27,15 @@
 # @param [Stdlib::Absolutepath] ldap_config_file
 #
 # @param [Hash] ldap_settings
+# @param [Boolean] manage_master
+# @param [Stdlib::Absolutepath] master_map
+# @param [String] master_owner
+# @param [String] master_group
+# @param [String] master_mode
+# @param [String] master_content
+# @param [String] master_source
+# @param [Hash] maps
+# @param [Hash] masters
 #
 # @param [Boolean] manage_service
 #   Allow puppet to manage the service for autofs
@@ -58,6 +67,16 @@ class autofs (
     'tlsrequired' => false,
     'authrequired' => false,
   },
+  # Master Map management
+  Boolean $manage_master = true,
+  Stdlib::Absolutepath $master_map = '/etc/auto.master',
+  String $master_owner = 'root',
+  String $master_group = 'root',
+  String $master_mode = '0644',
+  Optional[String] $master_content = undef,
+  Optional[Variant[Array[String], String]] $master_source = undef,
+  Hash $maps = {},
+  Hash $masters = {},
 
   # Service management
   Boolean $manage_service = true,
