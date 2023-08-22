@@ -13,6 +13,10 @@
     {
       "name": "puppetlabs-inifile",
       "version_requirement": ">= 4.3.0 < 5.0.0"
+    },
+    {
+      "name": "puppetlabs-concat",
+      "version_requirement": ">= 7.0.0 < 10.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -59,7 +63,7 @@
       "version_requirement": ">= 4.10.0 < 7.0.0"
     }
   ],
-  "issues": "https://github.com/ludovicus3/puppet-autofs/issues",
+  "issues_url": "https://github.com/ludovicus3/puppet-autofs/issues",
   "pdk-version": "3.0.0",
   "template-url": "pdk-default#3.0.0",
   "template-ref": "tags/3.0.0-0-g056e50d"
