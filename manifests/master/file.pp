@@ -4,7 +4,7 @@ define autofs::master::file (
   Optional[String] $owner = undef,
   Optional[String] $group = undef,
   Optional[String] $mode = undef,
-  Optional[Hash[String[1], Autofs::Map]] $maps = undef,
+  Optional[Hash] $maps = undef,
   Optional[String] $content = undef,
   Optional[Variant[Array[String[1]], String[1]]] $source = undef,
 ) {
@@ -22,6 +22,7 @@ define autofs::master::file (
 
   if $maps {
     concat { $path:
+      ensure         => present,
       owner          => $_owner,
       group          => $_group,
       mode           => $_mode,
