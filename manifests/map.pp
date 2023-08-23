@@ -30,8 +30,8 @@ define autofs::map (
   Optional[String] $mode = undef,
   Optional[Autofs::Type] $type = undef,
   Optional[Autofs::Format] $format = undef,
-  Optional[Autofs::Options] $options = undef,
-  Optional[Hash[String, Autofs::Mapping]] $mappings = undef,
+  Autofs::Options $options = [],
+  Optional[Hash] $mappings = undef,
   Optional[String] $content = undef,
   Optional[Variant[Array[String], String]] $source = undef,
 ) {
@@ -69,7 +69,7 @@ define autofs::map (
           mode           => pick($mode, '0644'),
           ensure_newline => true,
         }
-        create_resources('autofs::mapping', $mappings)
+        create_resources('autofs::mapping', $mappings, { map => $title })
       } else {
         file { $map:
           ensure  => file,
@@ -100,16 +100,16 @@ define autofs::map (
 
   $_master = pick($master, $autofs::master_map)
   if defined(Concat[$_master]) {
-    $_formatted_options = Array($options, true).join(',')
+    $_options = Array($options, true).join(',')
 
     $_entry = $type ? {
       undef => $format ? {
-        undef => "${mount} ${map} ${_formatted_options}",
-        default => "${mount} file,${format}:${map} ${_formatted_options}",
+        undef => "${mount} ${map} ${_options}",
+        default => "${mount} file,${format}:${map} ${_options}",
       },
       default => $format ? {
-        undef => "${mount} ${type}:${map} ${_formatted_options}",
-        default => "${mount} ${type},${format}:${map} ${_formatted_options}",
+        undef => "${mount} ${type}:${map} ${_options}",
+        default => "${mount} ${type},${format}:${map} ${_options}",
       }
     }
 
