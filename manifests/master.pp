@@ -46,12 +46,12 @@ define autofs::master (
   Boolean $purge = false,
   Variant[Integer, String[1]] $order = 10,
   Optional[Stdlib::Absolutepath] $master = undef,
-  Optional[Hash[String[1], Autofs::Map]] $maps = undef,
   Optional[Autofs::Type] $type = undef,
   Optional[Autofs::Format] $format = undef,
   Optional[String] $owner = undef,
   Optional[String] $group = undef,
   Optional[String] $mode = undef,
+  Optional[Hash] $maps = undef,
   Optional[String] $content = undef,
   Optional[String] $source = undef,
 ) {
@@ -66,9 +66,8 @@ define autofs::master (
         purge => $purge,
       }
     }
-    'file': {}
-    undef: {
-      if is_absolute_path($map) {
+    'file', undef: {
+      if $map =~ Stdlib::Absolutepath {
         autofs::master::file { $map:
           owner   => $owner,
           group   => $group,
