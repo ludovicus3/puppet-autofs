@@ -4,15 +4,15 @@ class autofs::config {
 
   if $autofs::manage_config {
     if $autofs::manage_package {
-      $requirements = Package[$autofs::package_name]
+      $_requirements = Package[$autofs::package_name]
     } else {
-      $requirements
+      $_requirements
     }
 
     if $autofs::manage_service {
-      $subscribers = Service[$autofs::service_name]
+      $_subscribers = Service[$autofs::service_name]
     } else {
-      $subscribers
+      $_subscribers
     }
 
     $autofs::autofs_settings.each |$key, $value| {
@@ -23,8 +23,8 @@ class autofs::config {
           section => 'autofs',
           setting => $key,
           value   => $value,
-          require => $requirements,
-          notify  => $subscribers,
+          require => $_requirements,
+          notify  => $_subscribers,
         }
       } else {
         ini_setting { "autofs::${key}":
@@ -32,20 +32,20 @@ class autofs::config {
           path    => $autofs::config_file,
           section => 'autofs',
           setting => $key,
-          require => $requirements,
-          notify  => $subscribers,
+          require => $_requirements,
+          notify  => $_subscribers,
         }
       }
+    }
 
-      file { $autofs::ldap_config_file:
-        ensure  => file,
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0640',
-        content => epp('autofs/autofs_ldap_auth.conf.epp'),
-        require => $requirements,
-        notify  => $subscribers,
-      }
+    file { $autofs::ldap_config_file:
+      ensure  => file,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0640',
+      content => epp('autofs/autofs_ldap_auth.conf.epp'),
+      require => $_requirements,
+      notify  => $_subscribers,
     }
   }
 
@@ -58,8 +58,8 @@ class autofs::config {
         mode    => $autofs::master_mode,
         content => $autofs::master_content,
         source  => $autofs::master_source,
-        notify  => $subscribers,
-        require => $requirements,
+        notify  => $_subscribers,
+        require => $_requirements,
       }
     } else {
       concat { $autofs::master_map:
@@ -68,8 +68,8 @@ class autofs::config {
         group          => $autofs::master_group,
         mode           => $autofs::master_mode,
         ensure_newline => true,
-        notify         => $subscribers,
-        require        => $requirements,
+        notify         => $_subscribers,
+        require        => $_requirements,
       }
     }
 
