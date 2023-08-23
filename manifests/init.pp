@@ -59,8 +59,14 @@ class autofs (
   # Configuration management
   Boolean $manage_config = true,
   Stdlib::Absolutepath $config_file = '/etc/autofs.conf',
-  Hash $autofs_settings = {},
-  Hash $amd_settings = {},
+  Hash $autofs_settings = {
+    'timeout' => 300,
+    'browse_mode' => 'no',
+    'mount_nfs_default_protocol' => 4,
+  },
+  Hash $amd_settings = {
+    'dismount_interval' => 300,
+  },
   Stdlib::Absolutepath $ldap_config_file = '/etc/autofs_ldap_auth.conf',
   Hash[String, Scalar] $ldap_settings = {
     'usetls' => false,
@@ -76,7 +82,15 @@ class autofs (
   Optional[String] $master_content = undef,
   Optional[Variant[Array[String], String]] $master_source = undef,
   Hash $maps = {},
-  Hash $masters = {},
+  Hash $masters = {
+    'auto.master' => {
+      order => '99',
+    },
+    '/etc/auto.master.d' => {
+      order => '98',
+      type => 'dir',
+    },
+  },
 
   # Service management
   Boolean $manage_service = true,
