@@ -32,7 +32,7 @@ describe 'autofs::master::file' do
     let(:perams) do
       params.merge({
                      maps: {
-                      test_map_title => test_map,
+                       test_map_title => test_map,
                      }
                    })
     end
