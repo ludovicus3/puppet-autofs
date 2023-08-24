@@ -32,7 +32,10 @@ define autofs::mapping (
     $_location = "${location['host']}:${location['path']}"
   } else {
     $_location = $location.map |$mount, $params| {
-      $host = pick($params['host'], '')
+      $host = 'host' in $params ? {
+        true => $params['host'],
+        false => '',
+      }
       $path = $params['path']
       $options = Array($params['options'], true).join(',')
 
