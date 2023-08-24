@@ -92,7 +92,10 @@ define autofs::master (
       $_options = Array($options, true).join(',')
 
       $_content = $type ? {
-        undef => "+${map} ${_options}",
+        undef => $format ? {
+          undef => "+${map} ${_options}",
+          default => "+file,${format}:${map} ${_options}",
+        },
         default => $format ? {
           undef => "+${type}:${map} ${_options}",
           default => "+${type},${format}:${map} ${_options}",
