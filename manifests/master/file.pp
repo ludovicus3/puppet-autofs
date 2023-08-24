@@ -30,7 +30,7 @@ define autofs::master::file (
       notify         => $_subscribers,
     }
 
-    ensure_resources('autofs::map', $maps, { master => $path })
+    create_resources('autofs::map', $maps, { master => $path })
   } else {
     file { $path:
       ensure  => file,

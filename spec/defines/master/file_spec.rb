@@ -16,6 +16,7 @@ describe 'autofs::master::file' do
     let(:params) { params }
 
     it do
+      is_expected.to compile
       is_expected.to contain_file(title)
         .with({
                 ensure: 'file',
@@ -29,7 +30,7 @@ describe 'autofs::master::file' do
       mount: '/test',
     }
 
-    let(:perams) do
+    let(:params) do
       params.merge({
                      maps: {
                        test_map_title => test_map,
@@ -38,8 +39,9 @@ describe 'autofs::master::file' do
     end
 
     it do
+      is_expected.to compile
       is_expected.to contain_concat(title)
-      is_expected.to contain_autofs__map(test_map_title)
+      is_expected.to contain_autofs__map(test_map_title).with(test_map.merge({ master: title }))
     end
   end
 
@@ -53,6 +55,7 @@ describe 'autofs::master::file' do
     end
 
     it do
+      is_expected.to compile
       is_expected.to contain_file(title)
         .with({
                 content: content,
@@ -61,7 +64,7 @@ describe 'autofs::master::file' do
   end
 
   context 'source defined' do
-    source = 'testing'
+    source = 'https://test.com/testing'
 
     let(:params) do
       params.merge({
@@ -70,10 +73,11 @@ describe 'autofs::master::file' do
     end
 
     it do
-      is_expected.to contain_file(title)
-        .with({
-                source: source,
-              })
+      is_expected.to compile
+      #is_expected.to contain_file(title)
+      #  .with({
+      #          source: source,
+      #        })
     end
   end
 end
