@@ -1,6 +1,7 @@
-# @summary A short summary of the purpose of this class
+# @summary Installs, configures and runs autofs
 #
-# A description of what this class does
+# This class will implement the installation, configuration and operation
+# of autofs. It will also manage the master file.
 #
 # @param [Boolean] manage_package
 #   Should puppet manage packages for autofs
@@ -21,21 +22,45 @@
 #   Path to the configuration file
 #
 # @param [Hash] autofs_settings
+#   A key-value hash of settings to add to the autofs config file
+#   under the [autofs] section
 #
 # @param [Hash] amd_settings
+#   A key-value hash of settings to add to the autofs config file
+#   under the [amd] section
 #
 # @param [Stdlib::Absolutepath] ldap_config_file
+#   Path to the config file used for ldap configuration
 #
 # @param [Hash] ldap_settings
+#   A key-value has of setting to add to the ldap configuration file
+#
 # @param [Boolean] manage_master
+#   Allow puppet to manage the master file
+#
 # @param [Stdlib::Absolutepath] master_map
+#   Path to the master file
+#
 # @param [String] master_owner
+#   Who owns the master file. Defaults to root.
+#
 # @param [String] master_group
+#   Which group owns the file. Defaults to root.
+#
 # @param [String] master_mode
+#   Permission for the master file
+#
 # @param [String] master_content
+#   Optional raw content for the master file
+#
 # @param [String] master_source
+#   Optional source of raw content for the master file
+#
 # @param [Hash] maps
+#   Hash of maps to implement
+#
 # @param [Hash] masters
+#   Hash of additional masters
 #
 # @param [Boolean] manage_service
 #   Allow puppet to manage the service for autofs
