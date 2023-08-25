@@ -14,10 +14,10 @@ describe 'autofs::master' do
     it do
       is_expected.to compile
       is_expected.to contain_concat__fragment(fragment)
-      .with({
-        target: master,
+        .with({
+                target: master,
         content: content,
-      })
+              })
     end
   end
 
@@ -30,7 +30,7 @@ describe 'autofs::master' do
     it_behaves_like 'master entry', title, params
     it do
       is_expected.to contain_autofs__master__directory(params.fetch(:map, title))
-      .with(params.slice(:owner, :group, :mode, :purge))
+        .with(params.slice(:owner, :group, :mode, :purge))
     end
   end
 
@@ -43,12 +43,12 @@ describe 'autofs::master' do
     it_behaves_like 'master entry', title, params
     it do
       is_expected.to contain_autofs__master__file(params.fetch(:map, title))
-      .with(params.slice(:owner, :group, :mode, :maps, :content, :source))
+        .with(params.slice(:owner, :group, :mode, :maps, :content, :source))
     end
   end
 
   title = '/etc/test.autofs'
-  
+
   it_behaves_like 'master directory', title, { type: 'dir' }
   it_behaves_like 'master file', title, {}
   it_behaves_like 'master file', title, { type: 'file' }
@@ -58,7 +58,7 @@ describe 'autofs::master' do
     let(:params) { { type: 'program' } }
 
     it do
-      is_expected.to compile.and_raise_error(/.*/)
+      is_expected.to compile.and_raise_error(%r{.*})
     end
   end
 
@@ -67,15 +67,15 @@ describe 'autofs::master' do
     let(:params) { { type: 'exec' } }
 
     it do
-      is_expected.to compile.and_raise_error(/.*/)
+      is_expected.to compile.and_raise_error(%r{.*})
     end
   end
 
   ['yp', 'nisplus', 'hesiod', 'ldap', 'ldaps'].each do |type|
     context "type is #{type}" do
       let(:title) { title }
-      let(:params) { {type: type}}
-      
+      let(:params) { { type: type } }
+
       it_behaves_like 'master entry', title, { type: type }
     end
   end

@@ -74,7 +74,7 @@ describe 'autofs::master::file' do
 
     it do
       is_expected.to compile
-      #is_expected.to contain_file(title)
+      # is_expected.to contain_file(title)
       #  .with({
       #          source: source,
       #        })

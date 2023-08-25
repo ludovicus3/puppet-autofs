@@ -58,7 +58,7 @@ define autofs::map (
 
   case $type {
     'dir': {
-      fail("Autofs::Map['${title}'] cannot be of type ${type}")
+      fail("Autofs::Map['${title}'] cannot be of type '${type}'")
     }
     'file', undef: {
       if $mappings {

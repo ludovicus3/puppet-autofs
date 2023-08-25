@@ -18,10 +18,10 @@ describe 'autofs::mapping' do
     it do
       is_expected.to compile
       is_expected.to contain_concat__fragment(fragment)
-      .with({
-        target: map,
-        content: content,
-      })
+        .with({
+                target: map,
+                content: content,
+              })
     end
   end
 
@@ -34,16 +34,16 @@ describe 'autofs::mapping' do
     location = {
       path: '/path',
     }
-    
+
     it_behaves_like 'mapping', title, params.merge({
-      options: 'test,test=1',
+                                                     options: 'test,test=1',
       location: location,
-    })
+                                                   })
     it_behaves_like 'mapping', title, params.merge({
-      options: ['test', 'test=1'],
-      location: location,
-    })
-    it_behaves_like 'mapping', title, params.merge({location: location})
+                                                     options: ['test', 'test=1'],
+                                                     location: location,
+                                                   })
+    it_behaves_like 'mapping', title, params.merge({ location: location })
   end
 
   context 'location is host:/path' do
@@ -53,14 +53,14 @@ describe 'autofs::mapping' do
     }
 
     it_behaves_like 'mapping', title, params.merge({
-      options: 'test,test=1',
+                                                     options: 'test,test=1',
       location: location,
-    })
+                                                   })
     it_behaves_like 'mapping', title, params.merge({
-      options: ['test', 'test=1'],
+                                                     options: ['test', 'test=1'],
       location: location,
-    })
-    it_behaves_like 'mapping', title, params.merge({location: location})
+                                                   })
+    it_behaves_like 'mapping', title, params.merge({ location: location })
   end
 
   context 'location is /mount host:/path' do
@@ -91,6 +91,6 @@ describe 'autofs::mapping' do
         path: '/path_f',
       }
     }
-    it_behaves_like 'mapping', title, params.merge({location: location})
+    it_behaves_like 'mapping', title, params.merge({ location: location })
   end
 end
