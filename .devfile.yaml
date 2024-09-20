@@ -4,9 +4,10 @@ metadata:
   displayName: Puppet AutoFS
 components:
   - name: tools
-    image: image-registry.openshift-image-registry.svc:5000/testing/puppet-developer-image:ubi8-latest
-    memoryLimit: 2Gi
-    memoryRequest: 256Mi
+    container:
+      image: image-registry.openshift-image-registry.svc:5000/testing/puppet-developer-image:ubi8-latest
+      memoryLimit: 2Gi
+      memoryRequest: 256Mi
 commands:
   - id: update-pdk
     exec:
