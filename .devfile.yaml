@@ -1,0 +1,19 @@
+schemaVersion: 2.1.0
+metadata:
+  name: puppet-autofs
+  displayName: Puppet AutoFS
+components:
+  - name: tools
+    image: image-registry.openshift-image-registry.svc:5000/testing/puppet-developer-image:ubi8-latest
+    memoryLimit: 2Gi
+    memoryRequest: 256Mi
+commands:
+  - id: update-pdk
+    exec:
+      commandLine: pdk update --force
+      component: tools
+      label: Update PDK Files
+      workingDir: ${PROJECT_SOURCE}
+events:
+  postStart:
+    - update-pdk
