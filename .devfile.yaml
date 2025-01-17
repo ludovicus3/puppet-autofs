@@ -5,7 +5,7 @@ metadata:
 components:
   - name: tools
     container:
-      image: image-registry.openshift-image-registry.svc:5000/testing/puppet-developer-image:ubi8-latest
+      image: quay.io/ludovicus/pdk-developer-image:ubi8
       memoryLimit: 2Gi
       memoryRequest: 256Mi
 commands:
