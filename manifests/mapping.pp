@@ -20,9 +20,9 @@
 # @example
 #   autofs::mapping { 'namevar': }
 define autofs::mapping (
-  String $key = $title,
   Autofs::Location $location,
   Stdlib::Absolutepath $map,
+  String $key = $title,
   Variant[String[1], Integer] $order = '10',
   Autofs::Options $options = [],
 ) {
