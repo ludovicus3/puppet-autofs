@@ -20,8 +20,8 @@
 # @example
 #   autofs::map { 'namevar': }
 define autofs::map (
-  String $map = $title,
   Stdlib::Absolutepath $mount,
+  String $map = $title,
   Variant[Integer, String[1]] $order = '10',
   Hash $settings = {},
   Optional[Stdlib::Absolutepath] $master = undef,
