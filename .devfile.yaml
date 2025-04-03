@@ -5,16 +5,19 @@ metadata:
 components:
   - name: tools
     container:
-      image: quay.io/ludovicus/pdk-developer-image:ubi8
+      image: quay.io/ludovicus/pdk-developer-image:latest
       memoryLimit: 2Gi
       memoryRequest: 256Mi
 commands:
-  - id: update-pdk
+  - id: pdk-update
     exec:
-      commandLine: pdk update --force
+      commandLine: pdk update
       component: tools
       label: Update PDK Files
       workingDir: ${PROJECT_SOURCE}
-events:
-  postStart:
-    - update-pdk
+  - id: pdk-bundle-install
+    exec:
+      commandLine: pdk bundle install
+      component: tools
+      label: Install Bundled Dependencies
+      workingDir: ${PROJECT_SOURCE}
